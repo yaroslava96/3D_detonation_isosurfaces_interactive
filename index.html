@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3D Detonation — Interactive Figures</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --n-figures: 21;       /* ← Change this to set the number of figures */
+      --t-start: 44.5;         /* ← Starting time */
+      --t-step: 0.25;        /* ← Time increment */
+
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #30363d;
+      --accent: #e67e22;
+      --accent2: #3b82f6;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --shock: #21918c;
+      --yr1: #3b82f6;
+      --yr2: #ef4444;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 300;
+      min-height: 100vh;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    header {
+      max-width: 780px;
+      margin: 0 auto 3.5rem;
+      border-left: 3px solid var(--accent);
+      padding-left: 1.5rem;
+    }
+
+    header .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: 1.2rem;
+    }
+
+    .description {
+      font-size: 0.97rem;
+      line-height: 1.75;
+      color: #c9d1d9;
+      max-width: 660px;
+    }
+
+    .description p + p { margin-top: 0.75rem; }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.4rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+
+    .dot {
+      width: 11px; height: 11px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .figures-grid {
+      max-width: 780px;
+      margin: 0 auto;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .fig-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      gap: 1rem;
+    }
+
+    .fig-card:hover {
+      border-color: var(--accent);
+      background: #1c2128;
+      transform: translateX(4px);
+    }
+
+    .fig-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .fig-index {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      min-width: 2.5rem;
+    }
+
+    .fig-title {
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+
+    .fig-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--accent);
+      white-space: nowrap;
+      background: rgba(230, 126, 34, 0.1);
+      border: 1px solid rgba(230, 126, 34, 0.25);
+      border-radius: 4px;
+      padding: 0.2rem 0.55rem;
+    }
+
+    .arrow {
+      color: var(--muted);
+      font-size: 1rem;
+      transition: color 0.2s;
+    }
+    .fig-card:hover .arrow { color: var(--accent); }
+
+    footer {
+      max-width: 780px;
+      margin: 3rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="label">Interactive Supplementary Material</div>
+  <h1>3D Detonation Simulation Results</h1>
+  <div class="description">
+    <p>
+      Each figure shows the <strong>shock surface</strong> and two iso-surfaces
+      located behind the shock front, corresponding to the reaction zone
+      progress variable&nbsp;<em>Y</em><sub>r</sub>:
+    </p>
+    <p>
+      where <em>Y</em><sub>r</sub>&nbsp;=&nbsp;0 means reactions have not yet started,
+      and <em>Y</em><sub>r</sub>&nbsp;=&nbsp;1 means reactions are complete.
+    </p>
+  </div>
+  <div class="legend">
+    <div class="legend-item">
+      <div class="dot" style="background: var(--shock);"></div>
+      Shock surface
+    </div>
+    <div class="legend-item">
+      <div class="dot" style="background: var(--yr1);"></div>
+      Y<sub style="font-size:0.7em">r</sub> = 0.1
+    </div>
+    <div class="legend-item">
+      <div class="dot" style="background: var(--yr2);"></div>
+      Y<sub style="font-size:0.7em">r</sub> = 0.95
+    </div>
+  </div>
+</header>
+
+<div class="figures-grid" id="figures-grid"></div>
+
+<footer>
+  Plotted from 3D numerical simulation data · Interactive visualizations built with Plotly 6.3.0
+</footer>
+
+<script>
+  // ── Configuration ──────────────────────────────────────────
+  const N_FIGURES = 21;    // ← Change to the number of your files
+  const T_START   = 44.25;    // ← Starting time value
+  const T_STEP    = 0.25;  // ← Time increment between figures
+  // ──────────────────────────────────────────────────────────
+
+  const grid = document.getElementById('figures-grid');
+
+  for (let i = 0; i < N_FIGURES; i++) {
+    const index    = String(i + 1).padStart(4, '0');
+    const time     = (T_START + i * T_STEP).toFixed(2);
+    const filename = `new_new_interactive_pressure_scalar2_2_${index}.html`;
+
+    const card = document.createElement('a');
+    card.href  = filename;
+    card.className = 'fig-card';
+    card.innerHTML = `
+      <div class="fig-left">
+        <span class="fig-index">Fig.&nbsp;${i + 1}</span>
+        <span class="fig-title">Detonation isosurfaces</span>
+      </div>
+      <span class="fig-time">t = ${time}</span>
+      <span class="arrow">→</span>
+    `;
+    grid.appendChild(card);
+  }
+</script>
+
+</body>
+</html>
