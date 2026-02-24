@@ -2,11 +2,12 @@
 
 ## Jet-induced Mach stem bifurcation in three-dimensional in-phase cellular structure detonation
 
-**Yaroslava Poroshyna, S. She-Ming Lau-Chapdelaine, Gabriel Ciccarelli**
+**Yaroslava Poroshyna-1, S. She-Ming Lau-Chapdelaine-1,2, Gabriel Ciccarelli-1**
 
-Department of Mechanical and Materials Engineering, Queen's University, Kingston, Ontario, Canada
+1-Department of Mechanical and Materials Engineering, Queen's University, Kingston, Ontario, Canada
+2-Department of Chemistry and Chemical Engineering, Royal Military College of Canada, 11 General Crerar Crescent, Kingston, Ontario, Canada
 
-Submitted to the *Proceedings of the Combustion Institute*
+Prepared to be submitted to the *Proceedings of the Combustion Institute*, 2026
 
 ---
 
