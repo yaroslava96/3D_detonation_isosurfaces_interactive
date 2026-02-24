@@ -209,7 +209,7 @@
   const grid = document.getElementById('figures-grid');
 
   for (let i = 0; i < N_FIGURES; i++) {
-    const index    = String(i + 1).padStart(4, '0');
+    const index    = String(i + 1).padStart(3, '0');
     const time     = (T_START + i * T_STEP).toFixed(2);
     const filename = `Figure${index}.html`;
 
