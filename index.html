@@ -7,10 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --n-figures: 21;       /* ← Change this to set the number of figures */
-      --t-start: 44.5;         /* ← Starting time */
-      --t-step: 0.25;        /* ← Time increment */
-
       --bg: #0d1117;
       --surface: #161b22;
       --border: #30363d;
@@ -54,6 +50,19 @@
       font-size: clamp(1.4rem, 3vw, 2rem);
       font-weight: 600;
       line-height: 1.25;
+      margin-bottom: 0.5rem;
+    }
+
+    header .authors {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    header .journal {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
       margin-bottom: 1.2rem;
     }
 
@@ -124,12 +133,14 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
       color: var(--muted);
-      min-width: 2.5rem;
+      min-width: 3rem;
     }
 
-    .fig-title {
-      font-size: 0.95rem;
+    .fig-caption {
+      font-size: 0.93rem;
       font-weight: 400;
+      color: #c9d1d9;
+      line-height: 1.5;
     }
 
     .fig-time {
@@ -141,6 +152,10 @@
       border: 1px solid rgba(230, 126, 34, 0.25);
       border-radius: 4px;
       padding: 0.2rem 0.55rem;
+    }
+
+    .fig-time.no-time {
+      visibility: hidden;
     }
 
     .arrow {
@@ -165,68 +180,58 @@
 
 <header>
   <div class="label">Interactive Supplementary Material</div>
-  <h1>3D Detonation Simulation Results</h1>
+  <h1>Jet-induced Mach stem bifurcation in three-dimensional in-phase cellular structure detonation</h1>
+  <div class="authors">Yaroslava Poroshyna, S. She-Ming Lau-Chapdelaine, Gabriel Ciccarelli</div>
+  <div class="journal">Proc. Combust. Inst. 42, 2026</div>
   <div class="description">
     <p>
-      Each figure shows the <strong>shock surface</strong> and two iso-surfaces
-      located behind the shock front, corresponding to the reaction zone
-      progress variable&nbsp;<em>Y</em><sub>r</sub>:
+      These interactive figures accompany the paper and allow the reader to
+      <strong>rotate, zoom in, and zoom out</strong> to better understand the complex
+      three-dimensional detonation structure — something not possible in static print figures.
     </p>
-    <p>
-      where <em>Y</em><sub>r</sub>&nbsp;=&nbsp;0 means reactions have not yet started,
-      and <em>Y</em><sub>r</sub>&nbsp;=&nbsp;1 means reactions are complete.
-    </p>
-  </div>
-  <div class="legend">
-    <div class="legend-item">
-      <div class="dot" style="background: var(--shock);"></div>
-      Shock surface
-    </div>
-    <div class="legend-item">
-      <div class="dot" style="background: var(--yr1);"></div>
-      Y<sub style="font-size:0.7em">r</sub> = 0.1
-    </div>
-    <div class="legend-item">
-      <div class="dot" style="background: var(--yr2);"></div>
-      Y<sub style="font-size:0.7em">r</sub> = 0.95
-    </div>
   </div>
 </header>
 
-<div class="figures-grid" id="figures-grid"></div>
+<div class="figures-grid">
+
+  <a href="Figure001.html" class="fig-card">
+    <div class="fig-left">
+      <span class="fig-index">Fig.&nbsp;S1</span>
+      <span class="fig-caption">The three-dimensional numerical foil that consists of the triple lines.</span>
+    </div>
+
+    <span class="arrow">→</span>
+  </a>
+
+  <a href="Figure002.html" class="fig-card">
+    <div class="fig-left">
+      <span class="fig-index">Fig.&nbsp;S2</span>
+      <span class="fig-caption">Detonation structure at t = 44.75. The transverse waves reflected from the side walls, while the oblique shock is about to reflect at the corner.</span>
+    </div>
+    <span class="arrow">→</span>
+  </a>
+
+  <a href="Figure003.html" class="fig-card">
+    <div class="fig-left">
+      <span class="fig-index">Fig.&nbsp;S3</span>
+      <span class="fig-caption">Detonation structure at t = 46. The oblique shock has just reflected from the corner.</span>
+    </div>
+    <span class="arrow">→</span>
+  </a>
+
+  <a href="Figure004.html" class="fig-card">
+    <div class="fig-left">
+      <span class="fig-index">Fig.&nbsp;S4</span>
+      <span class="fig-caption">Detonation structure at t = 48.5. Corresponds to the slice shown in Fig.&nbsp;3, Fig.&nbsp;5, and Fig.&nbsp;6 of the main paper.</span>
+    </div>
+    <span class="arrow">→</span>
+  </a>
+
+</div>
 
 <footer>
-  Plotted from 3D numerical simulation data · Interactive visualizations built with Plotly 6.3.0
+  Plotted from 3D numerical simulation data · Interactive visualizations built with Plotly
 </footer>
-
-<script>
-  // ── Configuration ──────────────────────────────────────────
-  const N_FIGURES = 21;    // ← Change to the number of your files
-  const T_START   = 44.25;    // ← Starting time value
-  const T_STEP    = 0.25;  // ← Time increment between figures
-  // ──────────────────────────────────────────────────────────
-
-  const grid = document.getElementById('figures-grid');
-
-  for (let i = 0; i < N_FIGURES; i++) {
-    const index    = String(i + 1).padStart(3, '0');
-    const time     = (T_START + i * T_STEP).toFixed(2);
-    const filename = `Figure${index}.html`;
-
-    const card = document.createElement('a');
-    card.href  = filename;
-    card.className = 'fig-card';
-    card.innerHTML = `
-      <div class="fig-left">
-        <span class="fig-index">Fig.&nbsp;${i + 1}</span>
-        <span class="fig-title">Detonation isosurfaces</span>
-      </div>
-      <span class="fig-time">t = ${time}</span>
-      <span class="arrow">→</span>
-    `;
-    grid.appendChild(card);
-  }
-</script>
 
 </body>
 </html>
